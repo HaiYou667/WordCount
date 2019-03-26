@@ -1,18 +1,12 @@
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
 /*
- * Í³¼ÆÖ¸¶¨µ¥´Ê¸öÊı
+ * @author guojia
+ * ç»Ÿè®¡æŒ‡å®šå•è¯ä¸ªæ•°
  */
 public class Count2 {
 		 public void wcount(){
@@ -20,83 +14,35 @@ public class Count2 {
 			int count2=0;
 			String word="";
 			int flag=1;
-			 String filecontent = "";//ÓÃÀ´´æ·Å¶ÁÈ¡µ½µÄÎÄ¼şÄÚÈİĞÅÏ¢
-			 
-	        //ÓÃ¼üÖµ¶Ô·Ö±ğ´æ´¢µ¥´ÊºÍËü³öÏÖµÄ´ÎÊı
-	        Map<String,Integer> map = new HashMap<String, Integer>();
-	        try {
-	            //¶ÁÈ¡Ö¸¶¨ÎÄ¼şDATA.txt,ÕâÀïÊ¹ÓÃµÄÊÇÏà¶ÔÂ·¾¶
-//	          FileInputStream fis = new FileInputStream("J:\\¼ÆËã»ú¿ÆÑ§Óë¼¼Êõ\\02 µÚ¶şÑ§ÆÚ\\2  Èí¼ş¹¤³Ì£¨´ú×æ»ª£©\\ÊµÑé¶ş ´ÊÆµÍ³¼Æ\\DATA.txt");
-	            FileInputStream fis = new FileInputStream("src\\DATA.txt");
-
-	        	//´´½¨BufferedReaderµÄ»º³åÁ÷£¬Ò»´ÎĞÔ¶ÁÈ¡ºÜ¶àÊı¾İ£¬È»ºó°´ÒªÇó·Ö´Î½»¸øÉÏ²ãµ÷ÓÃÕß
-	            BufferedReader br = new BufferedReader(new InputStreamReader(fis));
-	            String str = "";
-	            try {
-	                //Ò»ĞĞÒ»ĞĞ¶ÁÈ¡
-	                while ((str = br.readLine()) != null){
-	                	filecontent = filecontent + str;
-	                }
-	            } catch (IOException e) {
-	                e.printStackTrace();
-	            }
-	        }catch (FileNotFoundException e){
-	            e.printStackTrace();
-	        }
-	        //arrspiltÊı×éÓÃÀ´Í³¼Æµ¥´Ê³öÏÖµÄ´ÎÊı
-	        String [] arrspilt = filecontent.split("[^a-zA-Z]+");
-	        for (int i=0;i<arrspilt.length;i++){
-
-	            //Í¨¹ı¼üÃûÀ´»ñÈ¡¼üÖµ
-	            if (map.get(arrspilt[i]) == null){
-	            	//Í³¼Æ¼üÖµ¶Ô
-	                map.put(arrspilt[i],1);
-	            }else {
-	                int count = map.get(arrspilt[i]);
-	                map.put(arrspilt[i],++count);
-	            }
-	        }
-	        //ÀûÓÃTreeMapÊµÏÖComparator½Ó¿Ú
-	        Comparator<Map.Entry<String, Integer>> valcom = new Comparator<Map.Entry<String,Integer>>() {
-
-	        	//¶Ô´ÊÆµÍ³¼Æ½á¹û½øĞĞÅÅĞò
-		        public int compare(Map.Entry<String, Integer> rst1,Map.Entry<String, Integer> rst2) {
-		        	//½µĞòÅÅĞò
-		        	int sortrst=rst2.getValue()-rst1.getValue();
-					return sortrst;
-					
-		        	} 
-		        
-		        };
-					
-				List<Map.Entry<String, Integer>> ordlist = new ArrayList<Map.Entry<String,Integer>>(map.entrySet());
-					
-				// ÓÃsortº¯ÊıÀ´ÅÅĞò
-				Collections.sort(ordlist,valcom);
-				
-				Scanner sc = new Scanner(System.in); 
-		        System.out.println("ÇëÊäÈëÏëÒªÍ³¼Æ³öÏÖÔÚÎÄÕÂÖĞµÄµ¥´Ê:"); 
-		        String w = sc.next();
 			
+			Count1 c=new Count1();
+			c.readandprocessfile();
+	        
+			List<Map.Entry<String, Integer>> ordlist = new ArrayList<Map.Entry<String,Integer>>(c.map.entrySet());
+				// ç”¨sortå‡½æ•°æ¥æ’åº
+			Collections.sort(ordlist,c.valcom);	
+			
+			Scanner sc = new Scanner(System.in); 
+		    System.out.println("è¯·è¾“å…¥æƒ³è¦ç»Ÿè®¡å‡ºç°åœ¨æ–‡ç« ä¸­çš„å•è¯:"); 
+            String w = sc.next();		
+		         
+			for (Map.Entry<String, Integer> entry : ordlist) {
 				
-				for (Map.Entry<String, Integer> entry : ordlist) {
-				
-					if(entry.getKey().equals(w)){//
-						word=entry.getKey();
-						count2=entry.getValue();
-						flag=1;
-						break;
-					}else{
-						flag=0;
-					}
-					
-				}
-				if(flag==1){
-					System.out.println("¸Ãµ¥´Ê"+word+"³öÏÖµÄ¸öÊıÎª:"+count2);	
+				if(entry.getKey().equals(w)){//
+					word=entry.getKey();
+					count2=entry.getValue();
+					flag=1;
+					break;
 				}else{
-					System.out.println("¶Ô²»ÆğÎÄÕÂÖĞÃ»ÓĞ³öÏÖ¸Ãµ¥´Ê£¡");
-				}
+					flag=0;
+				}				
+			}
+
+			if(flag==1){
+				System.out.println("è¯¥å•è¯"+word+"å‡ºç°çš„ä¸ªæ•°ä¸º:"+count2);	
+			}else{
+				System.out.println("å¯¹ä¸èµ·æ–‡ç« ä¸­æ²¡æœ‰å‡ºç°è¯¥å•è¯ï¼");
+			}
 				
-		}
-	
-}
+		 }
+	}
