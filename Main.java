@@ -1,7 +1,9 @@
 import java.util.Scanner;
 
+import javax.swing.JFrame;
 
-public class Main{
+
+public class Main extends JFrame{
     public static void main(String[] args) {
     	
     	System.out.println("\n********************功能 菜单*********************");
@@ -12,24 +14,28 @@ public class Main{
     	System.out.println("*  选项4-----退出\t\t\t\t*");
     	System.out.println("*************************************************\n");
     	
+         Count1 c1=new Count1();
+         Count2 c2=new Count2();
+         Histogram c3=new Histogram();
+    	
     	Scanner sc = new Scanner(System.in); 
         System.out.println("请输入选项:"); 
         //int opt = sc.nextInt();
         String opt=sc.next();//用户的输入可能是各种类型的
-        Main m=new Main();
+       
         
     	switch(opt){
-    	case "1": 
-    		m.opt1count();
+    	case "1":
+    		c1.wcount();
     		main(null);
     		break;
     	case "2": 
-    		//System.out.println("该功能正在开发中..");
-    		m.opt2count();
+    		c2.wcount();
     		main(null);
     		break;
     	case "3": 
-    		m.opt3count();
+    		//c3.wcount();
+    		new Main();//调用构造方法,获取高频词汇个数,显示柱状图
     		main(null);
     		break;
     	case "4": 
@@ -43,19 +49,20 @@ public class Main{
     	}
     	
     }
-    //功能选项1
-    public void opt1count(){
-    	Count1 count1= new Count1();
-	    count1.wcount();
-	}
-    //功能选项2
-    public void opt2count(){
-    	Count2 count2= new Count2();
-	    count2.wcount();
-	}
-    //功能选项2
-    public void opt3count(){
-    	Count3 count3= new Count3();
-	    count3.wcount();
-	}
+   
+    /**
+    * 初始化窗体
+    */
+    public Main(){
+        
+        this.setSize(1000,800);//设置窗体大小
+        
+        this.add(new HighfrequencyWordsAndHistogram().getChartPanel());//将报表面板添加到窗体中
+        
+        this.setResizable(true);//设置窗体大小不可变
+        
+        this.setLocationRelativeTo(null);//设置窗体相对于屏幕居中
+        
+        this.setVisible(true);//设置窗体可见
+    }
 }
